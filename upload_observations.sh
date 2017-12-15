@@ -165,7 +165,7 @@ else
 	echo $line >> downloadedfiles.txt
 	# Insert XML filename in a file with the list with all XML downloaded
     echo $line >> historydownloadedfiles.txt
-
+fi
 done < LTER.txt
 
 # Writing in log file how many file have been downloaded 
