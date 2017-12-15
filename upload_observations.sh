@@ -24,10 +24,23 @@
 
 # Default directory where save XML. This folder can be changed
 downloadDir=/home/$USER/upload_observations/
+errorDir=$downloadDir/error
 # Directory where scritp is saved
 scriptDir=`pwd`
 # Default URL of SOS
 urlsos=http://sos-getit.irea.mi/observations/sos
+
+# Check if the directory where save XML exsists. If exists, all subdirectory and default files are existing
+if [ -d $downloadDir ]; then
+    echo ""
+    else
+    # Create directory where download XML
+    mkdir $downloadDir
+    # Create directory where move files with SOS upload error
+    mkdir $errorDir
+    # Create file with the history of downloaded files
+    touch $downloadDir/historydownloadedfiles.txt
+fi
 
 # Users can enter the path where download and save XML files
 #echo -en "Inserire il percorso in cui salvare i file scaricati [$downloadDir] "
@@ -128,28 +141,34 @@ while read line;
 
 do
 # If file exists in the folder of downloaded and if it exists in error folder, I will write in the log file that it has been already downloaded
-if [ -e $line ] && [ -e error/$line ]; then
-	echo "[ $(date +"%Y-%m-%d-%T") ] - File $line already downloaded" >> log.txt
+#if [ -e $line ] && [ -e error/$line ]; then
+#	echo "[ $(date +"%Y-%m-%d-%T") ] - File $line already downloaded" >> log.txt
+#else
+#	# If file doesn't exist, it will be downloaded and it will be included in a file which contains a list of downloaded file
+#	echo "[ $(date +"%Y-%m-%d-%T") ] - Downloading file $line" >> log.txt
+#	((count++))
+#	wget http://datalogger.santateresa.enea.it/Meteo_Station/LTER/$line
+#	echo $line >> downloadedfiles.txt
+
+#fi
+
+# If file name exists in the history file , in the log file it will be written that it has been already downloaded
+if [ grep -Fxq "$line" historydownloadedfiles.txt ]; then
+    echo "[ $(date +"%Y-%m-%d-%T") ] - File $line already downloaded" >> log.txt
 else
-	# If file doesn't exist, it will be downloaded and it will be included in a file which contains a list of downloaded file
-	echo "[ $(date +"%Y-%m-%d-%T") ] - Downloading file $line" >> log.txt
+    #If filename doesn't exist, it will be downloaded and it will be included in a file which contains a list of downloaded file
+    echo "[ $(date +"%Y-%m-%d-%T") ] - Downloading file $line" >> log.txt
 	((count++))
 	wget http://datalogger.santateresa.enea.it/Meteo_Station/LTER/$line
+	# Insert XML filename in file with a list of XML to be processed by the script post.sos.sh
 	echo $line >> downloadedfiles.txt
-fi
+	# Insert XML filename in a file with the list with all XML downloaded
+    echo $line >> historydownloadedfiles.txt
 
 done < LTER.txt
 
 # Writing in log file how many file have been downloaded 
 echo "[ $(date +"%Y-%m-%d-%T") ] - $count file has been downloaded: " >> log.txt
-
-#while read line;
-	
-#do
-
-#	echo $line >> log.txt
-
-#done < filescaricati.txt
 
 
 #######################################################################################################
@@ -168,7 +187,6 @@ echo "[ $(date +"%Y-%m-%d-%T") ] - $count file has been downloaded: " >> log.txt
 ########################################################################################################
 
 err=0
-errorDir=$downloadDir/errors
 while read line;
 
 do
@@ -186,7 +204,7 @@ do
 		echo -e $exceptiontext "\n" >> log.txt
 
 		# The file which has generated the exception will be added to a list of file which has failed the upload and it will be moved to "error" folder
-		echo $line >> error.txt
+		echo $line >> $errorDir/error.txt
 		mv $line $errorDir
 		mv $file $errorDir
 	else
@@ -204,7 +222,6 @@ echo "During uploading $err files have returned some exception and has been save
 #												                                                      #
 #######################################################################################################
 
-cat /dev/null > downloadedfiles.txt
 
 enddate=$(date +"%Y-%m-%d-%T")
 #durata=$((($datafine)-($datainizio)))
