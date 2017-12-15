@@ -33,6 +33,8 @@ if [ -d $downloadDir ]; then
     mkdir $errorDir
     # Create file with the history of downloaded files
     touch $downloadDir/historydownloadedfiles.txt
+    # Create file listed file with upload error
+    touch $errorDir/error.txt
 fi
 
 ###########################################################################################################
