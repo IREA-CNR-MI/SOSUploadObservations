@@ -14,6 +14,13 @@
 ##    		  				                          ##
 ########################################################
 
+### Fare controllo se il file error.txt è vuoto
+### se non lo è ciclo per i nomi elencati e riprovo a caricare gli XML
+### se non dà errori elimino il file XML dalla cartella error e dal file error.txt
+### e scrivo nel log che il caricamento è andato a buon fine
+### se dà errori scrivo nel log che ha dato nuovamente errori
+### e lo elimino dalla cartella in modo che sia riscaricato
+
 
 # Default directory where save XML. This folder can be changed
 downloadDir=/home/$USER/upload_observations/
@@ -120,8 +127,8 @@ count=0
 while read line;
 
 do
-# If file exists, I will write in the log file that it has been already downloade
-if [ -e $line ]; then
+# If file exists in the folder of downloaded and if it exists in error folder, I will write in the log file that it has been already downloaded
+if [ -e $line ] && [ -e error/&line ]; then
 	echo "[ $(date +"%Y-%m-%d-%T") ] - File $line already downloaded" >> log.txt
 else
 	# If file doesn't exist, it will be downloaded and it will be included in a file which contains a list of downloaded file
