@@ -1,6 +1,8 @@
 # SOSUploadObservations
 Script for upload observations within SOS server
 
+INSTRUCTION
+
 1) git clone  https://github.com/IREA-CNR-MI/SOSUploadObservations.git
 
 2) cd SOSUploadObservations
