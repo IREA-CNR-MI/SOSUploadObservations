@@ -14,14 +14,6 @@
 ##    		  				                          ##
 ########################################################
 
-### Fare controllo se il file error.txt è vuoto
-### se non lo è ciclo per i nomi elencati e riprovo a caricare gli XML
-### se non dà errori elimino il file XML dalla cartella error e dal file error.txt
-### e scrivo nel log che il caricamento è andato a buon fine
-### se dà errori scrivo nel log che ha dato nuovamente errori
-### e lo elimino dalla cartella in modo che sia riscaricato
-
-
 # Default directory where save XML. This folder can be changed
 downloadDir=/home/$USER/upload_observations/
 errorDir=$downloadDir/error
@@ -42,7 +34,51 @@ if [ -d $downloadDir ]; then
     touch $downloadDir/historydownloadedfiles.txt
 fi
 
-# Access the folder where XML will be saved
+###########################################################################################################
+#                                                                                                         #
+# Processing file with previous uploading error - BEGIN                                                   #
+#                                                                                                         #
+###########################################################################################################
+
+# If file with XML error list is not empty
+if  [ -n $errorDir/error.txt ]; then
+
+while read line;
+
+do
+	file=$line".SOS.response.xml"
+	$scriptDir/post.sos.sh -e $urlsos $line
+	# If the response file contains the word Exception, the exception will be written in the log file
+	if grep -q  Exception $file; then
+		((err++))
+		echo -e "[ $(date +"%Y-%m-%d-%T") ] - $line -- uploading has produced the following exception: \n " >> log.txt
+
+		exceptioncode=`sed 's:^.*exceptionCode="::;s:" locator.*$::;s:<.*>::g;s:[[:space:]]::g;/^$/d' $file`
+		exceptiontext=`sed 's:^.*<ows\:ExceptionText>::;s:.</ows\:ExceptionText>.*$::;s:<.*>::g;/^$/d' $file`
+
+		echo $exceptioncode >> log.txt
+		echo -e $exceptiontext "\n" >> log.txt
+
+	else
+	# If no exception will be found, a row in the log file will be written specifying that the upload was OK
+	echo "[ $(date +"%Y-%m-%d-%T") ] - $line has been uploaded without errors " >> log.txt
+    # Remove both files XML and the response file
+    rm $line*
+    # Remove the filename from the list in error.txt
+    sed -i "/$line/d" $errorDir/error.txt
+fi
+done < $errorDir/error.txt
+
+fi
+
+###########################################################################################################
+#                                                                                                         #
+# Processing file with previous uploading error - END                                                   #
+#                                                                                                         #
+###########################################################################################################
+
+
+# Access the folder where XML will be downloaded
 cd $downloadDir
 # Begin procedure date and time
 begindate=$(date +"%Y-%m-%d-%T")
@@ -118,7 +154,7 @@ do
 #fi
 
 # If file name exists in the history file , in the log file it will be written that it has been already downloaded
-if [ grep -Fxq "$line" historydownloadedfiles.txt ]; then
+if [ grep -q $line historydownloadedfiles.txt ]; then
     echo "[ $(date +"%Y-%m-%d-%T") ] - File $line already downloaded" >> log.txt
 else
     #If filename doesn't exist, it will be downloaded and it will be included in a file which contains a list of downloaded file
@@ -198,3 +234,4 @@ echo "Procedure end at: $enddate"
 echo "[ $enddate ] ---- END ---- " >> log.txt
 
 
+fi
