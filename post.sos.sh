@@ -2,7 +2,7 @@
 
 # PURPOSE: call irea SOS service given post request file(name)
 # USAGE: <script name> <post request filename>
-# 			this script writes the response content in the working directory and opens it with the default xml editor
+# 			the script writes the response content in the working directory and opens it with the default xml editor
 # AUTHOR: tagliolato.p@irea.cnr.it
 
 display_help() {
