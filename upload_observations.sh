@@ -14,7 +14,7 @@
 ##    		  				                          ##
 ########################################################
 
- 
+
 # Default directory where save XML. This folder can be changed
 downloadDir=/home/$USER/upload_observations/
 # Directory where scritp is saved
@@ -89,7 +89,7 @@ if [ -e LTER.txt ]; then
 	fi
 else
 
-# If LTER.txt doesn't exist, it will be downloaded
+# If LTER.txt doesn't exists, it will be downloaded
 echo "[ $(date +"%Y-%m-%d-%T") ] - File LTER.txt doesn't exist, it will be downloaded" >> log.txt
 wget http://datalogger.santateresa.enea.it/Meteo_Station/LTER/LTER.txt
 
