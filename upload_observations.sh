@@ -128,14 +128,14 @@ while read line;
 
 do
 # If file exists in the folder of downloaded and if it exists in error folder, I will write in the log file that it has been already downloaded
-if [ -e $line ] && [ -e error/&line ]; then
+if [ -e $line ] && [ -e error/$line ]; then
 	echo "[ $(date +"%Y-%m-%d-%T") ] - File $line already downloaded" >> log.txt
 else
 	# If file doesn't exist, it will be downloaded and it will be included in a file which contains a list of downloaded file
 	echo "[ $(date +"%Y-%m-%d-%T") ] - Downloading file $line" >> log.txt
 	((count++))
 	wget http://datalogger.santateresa.enea.it/Meteo_Station/LTER/$line
-	echo $line >> filescaricati.txt
+	echo $line >> downloadedfiles.txt
 fi
 
 done < LTER.txt
@@ -194,7 +194,7 @@ do
 	echo "[ $(date +"%Y-%m-%d-%T") ] - $line has been uploaded without errors " >> log.txt
 
 	fi
-done < filescaricati.txt
+done < downloadedfiles.txt
 echo "During uploading $err files have returned some exception and has been saved in $errorDir"
 
 
@@ -203,6 +203,8 @@ echo "During uploading $err files have returned some exception and has been save
 # Running script for uploading XML into SOS and check response files - END                            #
 #												                                                      #
 #######################################################################################################
+
+cat /dev/null > downloadedfiles.txt
 
 enddate=$(date +"%Y-%m-%d-%T")
 #durata=$((($datafine)-($datainizio)))
