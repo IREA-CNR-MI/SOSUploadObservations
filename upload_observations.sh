@@ -42,41 +42,6 @@ if [ -d $downloadDir ]; then
     touch $downloadDir/historydownloadedfiles.txt
 fi
 
-# Users can enter the path where download and save XML files
-#echo -en "Inserire il percorso in cui salvare i file scaricati [$downloadDir] "
-
-#read downloadDir
-
-# If left empty, the default directory will be used
-#if [ -z $downloadDir ]; then
-#	downloadDir=/home/$USER/upload_observations/
-#	echo Path : $downloadDir
-	# Check if the directory exists
-#	if [ -d $downloadDir ]; then
-#		echo "Folder $downloadDir exists"
-#		else
-		# If the directory doesn't exist, it will be created
-#		mkdir $downloadDir
-#	fi
-#else
-#	echo "Path : $downloadDir"
-#fi
-
-
-# Users can enter the URL to the SOS service 
-#echo -en "Inserire l'url del SOS  [$urlsos] "
-
-#read urlsos 
-
-#if [ -z $urlsos ]; then
-#	urlsos=http://sos-getit.irea.mi/observations/sos
-#	echo "L'URL è: $urlsos"
-#else
-#	echo "L'URL è : $urlsos"
-#fi
-
-
-
 # Access the folder where XML will be saved
 cd $downloadDir
 # Begin procedure date and time
