@@ -213,7 +213,7 @@ do
 
 	fi
 done < downloadedfiles.txt
-echo "During uploading $err files have returned some exception and has been saved in $errorDir"
+echo "During uploading $err files have returned some exception and have been saved in $errorDir"
 
 
 #######################################################################################################
