@@ -30,16 +30,16 @@ urlsos=http://sos-getit.irea.mi/observations/sos
 # If left empty, the default directory will be used
 #if [ -z $downloadDir ]; then
 #	downloadDir=/home/$USER/upload_observations/
-#	echo Il path è: $downloadDir
+#	echo Path : $downloadDir
 	# Check if the directory exists
 #	if [ -d $downloadDir ]; then
-#		echo "La cartella esiste"
+#		echo "Folder $downloadDir exists"
 #		else
 		# If the directory doesn't exist, it will be created
 #		mkdir $downloadDir
 #	fi
 #else
-#	echo "Il path è : $downloadDir"
+#	echo "Path : $downloadDir"
 #fi
 
 
@@ -64,9 +64,9 @@ begindate=$(date +"%Y-%m-%d-%T")
 echo -e "\n\n [ $begindate ] ---- BEGIN ---- " >> log.txt
 
 ###########################################################################################################
-##												                                                          #
-## Check and download file LTER.txt conaining the XML file list - BEGIN 			                	  #
-##												                                                          #
+#                                                                                                         #
+# Check and download file LTER.txt conaining the XML file list - BEGIN                                    #
+#                                                                                                         #
 ###########################################################################################################
 
 
@@ -109,13 +109,13 @@ sed -i 's/\r$//' LTER.txt
 #------------------------------------------------------------------------------------------------------#
 
 ########################################################################################################
-#												                                                       #
-# Check and download XML files - BEGIN				                                                   #
-#												                                                       #
+#                                                                                                      #
+# Check and download XML files - BEGIN                                                                 #
+#                                                                                                      #
 ########################################################################################################
 
 
-# Chek if files XML listed in LTER.txt exist i the folder
+# Check if files XML listed in LTER.txt exist in the folder
 count=0
 while read line;
 
@@ -167,7 +167,7 @@ while read line;
 do
 	file=$line".SOS.response.xml"
 	$scriptDir/post.sos.sh -e $urlsos $line
-	# Se il file di risposta contiene la parola Exception, scrivo l'eccezione nel file di log e aggiungo il file ad un elenco dei file che hanno dato errore nel caricamento
+	# If the response file contains the word Exception, the exception will be written in the log file
 	if grep -q  Exception $file; then
 		((err++))
 		echo -e "[ $(date +"%Y-%m-%d-%T") ] - $line -- uploading has produced the following exception: \n " >> log.txt
@@ -178,12 +178,12 @@ do
 		echo $exceptioncode >> log.txt
 		echo -e $exceptiontext "\n" >> log.txt
 
-		# Inserisco l'XML al file che contiene gli XML che hanno generato un errore nel caricamento nel SOS
+		# The file which has generated the exception will be added to a list of file which has failed the upload and it will be moved to "error" folder
 		echo $line >> error.txt
 		mv $line $errorDir
 		mv $file $errorDir
 	else
-	# Altrimenti scrivo nel log che il file è stato caricato correttamente
+	# If no exception will be found, a row in the log file will be written specifying that the upload was OK
 	echo "[ $(date +"%Y-%m-%d-%T") ] - $line has been uploaded without errors " >> log.txt
 
 	fi
@@ -193,7 +193,7 @@ echo "During uploading $err files have returned some exception and has been save
 
 #######################################################################################################
 #												                                                      #
-# Fine procedura esecuzione script caricamento XML nel SOS e controllo file di risposta               #
+# Running script for uploading XML into SOS and check response files - END                            #
 #												                                                      #
 #######################################################################################################
 
