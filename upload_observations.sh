@@ -214,7 +214,9 @@ do
 	else
 	# If no exception will be found, a row in the log file will be written specifying that the upload was OK
 	echo "[ $(date +"%Y-%m-%d-%T") ] - $line has been uploaded without errors " >> log.txt
-
+    # Delete the file XML and the response
+    rm $line
+    rm $file
 	fi
 done < downloadedfiles.txt
 echo "During uploading $err files have returned some exception and have been saved in $errorDir"
@@ -235,6 +237,3 @@ echo "Procedure begin at: $begindate"
 echo "Procedure end at: $enddate"
 #echo "Tempo impiegato: $durata"
 echo "[ $enddate ] ---- END ---- " >> log.txt
-
-
-fi
