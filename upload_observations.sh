@@ -45,7 +45,7 @@ fi
 
 # If file with XML error list is not empty
 if  [ -n $errorDir/error.txt ]; then
-
+cd $errorDir
 while read line;
 
 do
