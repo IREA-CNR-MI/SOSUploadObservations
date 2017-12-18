@@ -16,7 +16,7 @@
 ########################################################
 
 # Default directory where save XML. This folder can be changed
-downloadDir=/home/$USER/upload_observations/
+downloadDir=/home/$USER/upload_observations
 errorDir=$downloadDir/error
 # Directory where scritp is saved
 scriptDir=`pwd`
