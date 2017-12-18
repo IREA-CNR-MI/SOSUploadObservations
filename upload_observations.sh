@@ -157,7 +157,7 @@ do
 #fi
 
 # If file name exists in the history file , in the log file it will be written that it has been already downloaded
-if [ grep -q $line historydownloadedfiles.txt ]; then
+if grep -q $line historydownloadedfiles.txt; then
     echo "[ $(date +"%Y-%m-%d-%T") ] - File $line already downloaded" >> log.txt
 else
     #If filename doesn't exist, it will be downloaded and it will be included in a file which contains a list of downloaded file
