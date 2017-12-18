@@ -221,6 +221,8 @@ do
 done < downloadedfiles.txt
 echo "During uploading $err files have returned some exception and have been saved in $errorDir"
 
+# Empty downloadedfiles.txt
+cat /dev/null > downloadedfiles.txt
 
 #######################################################################################################
 #												                                                      #
