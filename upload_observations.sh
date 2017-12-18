@@ -214,7 +214,7 @@ do
 	else
 	# If no exception will be found, a row in the log file will be written specifying that the upload was OK
 	echo "[ $(date +"%Y-%m-%d-%T") ] - $line has been uploaded without errors " >> log.txt
-    # Delete the file XML and the response
+    # Deleting the file XML and the response
     rm $line
     rm $file
 	fi
