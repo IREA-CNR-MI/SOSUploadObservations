@@ -9,5 +9,13 @@ INSTRUCTION
 
 3) chmod a+x upload_observations.sh post.sos.sh
 
-4) Edit upload_observtion.sh to modify the directory where download the file XML and the URL of SOS where upload these files
+4) Edit upload_observation.sh to modify the directory where download the file XML and the URL of SOS where upload these files
+
+
+TASK SCHEDULING
+
+1) Move the folder SOSUploadObservations in /root
+
+2) Set crontab
+
 

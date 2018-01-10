@@ -101,7 +101,7 @@ if [ -e LTER.txt ]; then
 	# Check if file are different
 	diff -q LTER.txt LTER_1.txt
 
-	if [ -z $differ ]; then
+	if [ $? == 0 ]; then
 		# If files aren't different, the file just downloaded will be deleted
 		echo "[ $(date +"%Y-%m-%d-%T") ] - Files are not different, last file downloaded had been deleted" >> log.txt
 		rm LTER_1.txt 
