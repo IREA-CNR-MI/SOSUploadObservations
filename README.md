@@ -11,7 +11,6 @@ INSTRUCTION
 
 4) Edit upload_observation.sh:
    - modify the directory where to download the file XML
-   - modify the path where scripts are saved
    - modify the URL of SOS where upload these files
 
 
@@ -19,6 +18,8 @@ TASK SCHEDULING
 
 1) Move the folder SOSUploadObservations in /root
 
-2) Set crontab
+2) Edit upload_observation.sh and modify the path where scripts are saved
+
+3) Set crontab
 
 
