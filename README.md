@@ -18,7 +18,7 @@ TASK SCHEDULING
 
 1) Move the folder SOSUploadObservations in /root
 
-2) Edit upload_observation.sh and modify the path where scripts are saved
+2) Edit upload_observations.sh and modify the path where scripts are saved
 
 3) Set crontab
 
