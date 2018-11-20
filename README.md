@@ -9,7 +9,7 @@ INSTRUCTION
 
 3) chmod a+x upload_observations.sh post.sos.sh
 
-4) Edit upload_observation.sh:
+4) Edit upload_observations.sh:
    - modify the directory where to download the file XML
    - modify the URL of SOS where upload these files
 
